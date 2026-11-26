@@ -1,0 +1,77 @@
+<div id="update-view" class="hidden w-full h-full flex-col p-7 overflow-hidden">
+  <div class="flex-1 overflow-y-auto custom-scrollbar pr-2">
+    <div class="max-w-[900px] pb-8">
+
+      <!-- Logo lockup, as sketched: brand first, banner under it. -->
+      <div class="update-head flex items-center gap-4"> 
+        <div class="logo-lockup">
+          <span class="mark">
+            <svg class="w-5 h-5" viewBox="0 0 64 64" fill="currentColor" aria-hidden="true">
+              <polygon points="38,4 12,36 30,36 24,60 52,24 34,24" />
+            </svg>
+          </span>
+          <div>
+            <div class="name">Flash <em>Client</em></div>
+            <div class="tag">Launcher update</div>
+          </div>
+        </div>
+
+        <div class="flex-1"></div>
+
+        <p id="update-subtitle" class="text-[11.5px] text-white/35 text-right leading-snug">Reading this build's version…</p>
+        <button type="button" id="update-check-button" onclick="checkForLauncherUpdate()"
+                class="btn-quiet btn-sm shrink-0">Check for updates</button>
+      </div>
+
+      <!-- Full-width release banner. The main process owns the state; this
+           element is repainted by update.js for every phase. -->
+      <section class="release-banner">
+        <div id="update-card" class="release-inner flex flex-col justify-between">
+          <p class="page-eyebrow">Checking</p>
+        </div>
+      </section>
+
+      <div class="update-cards grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <section class="settings-card">
+          <h3 class="settings-group-title">Automatic updates</h3>
+          <div class="settings-row">
+            <div class="min-w-0">
+              <p class="settings-label">Check and download in the background</p>
+              <p class="settings-hint">Runs a few seconds after the launcher opens and every half hour. Installing is always your call.</p>
+            </div>
+            <label class="shrink-0">
+              <input type="checkbox" class="peer sr-only" id="setting-autoUpdate" onchange="settingsToggle('autoUpdate', this.checked)">
+              <span class="toggle"></span>
+            </label>
+          </div>
+          <div class="settings-row">
+            <div class="min-w-0">
+              <p class="settings-label">Check frequency</p>
+              <p class="settings-hint">Startup and every 30 minutes while the launcher stays open.</p>
+            </div>
+            <span class="chip">30 min</span>
+          </div>
+        </section>
+
+        <section class="settings-card">
+          <h3 class="settings-group-title">This build</h3>
+          <div class="settings-row">
+            <div class="min-w-0">
+              <p class="settings-label">Update channel</p>
+              <p class="settings-hint">Stable releases on the owner feed.</p>
+            </div>
+            <span class="chip">Stable</span>
+          </div>
+          <div class="settings-row">
+            <div class="min-w-0">
+              <p class="settings-label">Last checked</p>
+              <p class="settings-hint">Automatic checks keep running while the launcher is open.</p>
+            </div>
+            <span id="update-footnote" class="text-[11px] font-mono text-white/30 text-right">not checked yet</span>
+          </div>
+        </section>
+      </div>
+
+    </div>
+  </div>
+</div>

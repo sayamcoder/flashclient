@@ -1,0 +1,45 @@
+<div id="cosmetics-view" class="hidden w-full h-full flex-col px-7 py-6 overflow-hidden">
+  <div class="flex items-start justify-between gap-4 mb-3">
+    <div class="min-w-0">
+      <h2 class="page-title">Cosmetics</h2>
+      <p id="cosmetics-subtitle" class="text-[12px] text-white/40 mt-1">Wings, capes and hats — picked here, worn in-game</p>
+    </div>
+
+    <div class="flex gap-0.5 bg-white/[0.05] p-0.5 rounded-md shrink-0">
+      <button type="button" data-cosmetic-slot="wings" onclick="setCosmeticSlot('wings')"
+              class="cosmetic-tab px-2.5 py-1 text-[11px] font-medium rounded text-white bg-white/10 cursor-pointer">Wings</button>
+      <button type="button" data-cosmetic-slot="cape" onclick="setCosmeticSlot('cape')"
+              class="cosmetic-tab px-2.5 py-1 text-[11px] font-medium rounded text-white/40 hover:text-white cursor-pointer">Capes</button>
+      <button type="button" data-cosmetic-slot="hat" onclick="setCosmeticSlot('hat')"
+              class="cosmetic-tab px-2.5 py-1 text-[11px] font-medium rounded text-white/40 hover:text-white cursor-pointer">Hats</button>
+    </div>
+  </div>
+
+  <p id="cosmetics-note" class="text-[11px] text-white/30 mb-4"></p>
+
+  <div class="flex-1 flex gap-5 overflow-hidden">
+    <div class="flex-1 overflow-y-auto pr-2 custom-scrollbar">
+      <div id="cosmetics-grid" class="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-2.5 pb-4"></div>
+    </div>
+
+    <div class="w-[280px] h-full flex flex-col bg-[#121317] border border-white/10 rounded-lg p-4">
+      <div class="flex items-start justify-between gap-3 pb-3 border-b border-white/[0.07]">
+        <div class="min-w-0">
+          <span class="block text-[11px] text-white/35">Live preview</span>
+          <span class="block text-[12px] font-medium text-white mt-1">In-game look</span>
+        </div>
+        <div id="cosmetic-worn" class="flex flex-col items-end gap-1 shrink-0"></div>
+      </div>
+
+      <div id="cosmetic-stage" class="flex-1 my-3 rounded-md overflow-hidden relative border border-white/[0.07] bg-cover bg-center"
+           style="background-image: url('images/stage-meadow-2048x2048.png');">
+        <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 72% 68% at 50% 44%, rgba(9,9,11,0) 30%, rgba(9,9,11,0.62) 100%)"></div>
+        <canvas id="cosmetic-stage-canvas" class="absolute inset-0 w-full h-full z-10 cursor-grab active:cursor-grabbing touch-none"></canvas>
+        <img id="cosmetic-stage-flat" alt="" class="hidden absolute inset-0 m-auto max-h-[82%] max-w-[82%] object-contain pixelated z-10" />
+        <span class="absolute bottom-2 left-0 right-0 text-center text-[10px] text-white/35 pointer-events-none z-20">Drag to rotate</span>
+      </div>
+
+      <p id="cosmetic-stage-note" class="text-[10px] leading-relaxed text-white/30">Your skin, the picked hat and cape, drawn with the same models the client loads at launch.</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,87 @@
+<!-- SIGN IN — the same full-bleed world as Play. The form floats on the left
+     over a directional scrim, so the art stays the window instead of a
+     picture framed inside a card. -->
+<div id="auth-view" class="w-full h-full flex flex-col justify-center px-12 relative z-10 overflow-hidden">
+  <div class="fixed inset-y-0 left-0 w-[68%] bg-gradient-to-r from-[#09090b] from-45% via-[#09090b]/90 to-transparent pointer-events-none"></div>
+
+  <div class="relative w-full max-w-[330px]">
+    <div class="flex items-center gap-2.5 hero-wordmark">
+      <svg class="w-7 h-7 text-[#e04f4f] mb-0.5" viewBox="0 0 64 64" fill="currentColor">
+        <polygon points="38,4 12,36 30,36 24,60 52,24 34,24" />
+      </svg>
+      <h1 class="text-[40px] leading-none font-bold tracking-[-0.02em] text-white">Flash</h1>
+      <span class="text-[40px] leading-none font-light tracking-[-0.01em] text-white/55">Client</span>
+    </div>
+    <p class="mt-3 mb-7 text-[12px] font-medium text-white/55 hero-shadow">Sign in to continue</p>
+
+    <div class="w-full flex flex-col gap-2">
+      <button type="button" onclick="handleMicrosoftLogin()" id="microsoft-login-btn" class="btn-smooth w-full h-11 bg-white hover:bg-neutral-100 text-black text-[13px] font-semibold rounded-lg flex items-center justify-center gap-2.5 cursor-pointer">
+        <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 21 21">
+          <rect x="1" y="1" width="9" height="9" fill="#f25022"/>
+          <rect x="11" y="1" width="9" height="9" fill="#7fba00"/>
+          <rect x="1" y="11" width="9" height="9" fill="#00a4ef"/>
+          <rect x="11" y="11" width="9" height="9" fill="#ffb900"/>
+        </svg>
+        <span>Continue with Microsoft</span>
+      </button>
+
+      <button type="button" onclick="openCrackedModal()" id="cracked-open-btn" class="btn-smooth w-full h-11 bg-black/45 hover:bg-black/65 border border-white/15 backdrop-blur-md text-white text-[13px] font-semibold rounded-lg flex items-center justify-center gap-2.5 cursor-pointer">
+        <svg class="w-4 h-4 text-white/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+        <span>Continue with a username</span>
+      </button>
+    </div>
+
+    <div class="flex items-center justify-between mt-8">
+      <a href="https://discord.gg/wF69hy5pPv" target="_blank" title="Join the Discord" aria-label="Join the Discord" class="btn-smooth w-9 h-9 rounded-lg bg-black/45 hover:bg-black/65 border border-white/15 backdrop-blur-md flex items-center justify-center text-white/60 hover:text-white cursor-pointer">
+        <svg class="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.893.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+      </a>
+
+      <footer class="text-[11px] text-white/40 flex items-center gap-2">
+        <a href="#" class="hover:text-white/70">Privacy</a><span>•</span>
+        <a href="#" class="hover:text-white/70">Terms</a><span>•</span>
+        <a href="#" class="hover:text-white/70">Support</a>
+        <span class="text-white/15">•</span>
+        <span class="text-white/25 font-mono">v<%= version %></span>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<div id="cracked-modal" style="display: none;" class="fixed inset-0 z-50 items-center justify-center bg-black/80 backdrop-blur-md">
+  <div class="surface-modal w-[340px] p-5 relative">
+    <div class="flex items-start justify-between gap-4 mb-5">
+      <div>
+        <h2 class="text-[13px] font-semibold text-white">Sign in with a username</h2>
+        <p class="text-[11px] text-white/40 mt-1">Offline mode — no Microsoft account needed</p>
+      </div>
+      <button type="button" onclick="closeCrackedModal()" aria-label="Close" class="text-white/40 hover:text-white p-1 -mt-1 -mr-1 rounded-md cursor-pointer">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+
+    <div class="flex flex-col items-center mb-5">
+      <div class="w-16 h-16 rounded-md border border-white/10 bg-black/50 overflow-hidden flex items-center justify-center relative">
+        <div id="avatar-loading" class="hidden absolute inset-0 bg-black/60 flex items-center justify-center">
+          <svg class="animate-spin h-5 w-5 text-white/50" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+        </div>
+        <img id="avatar-preview" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'><rect width='8' height='8' fill='%23b8815a'/><rect x='1' y='1' width='6' height='2' fill='%234a3219'/><rect x='1' y='3' width='1' height='1' fill='%234a3219'/><rect x='6' y='3' width='1' height='1' fill='%234a3219'/><rect x='1' y='4' width='2' height='1' fill='%23fff'/><rect x='2' y='4' width='1' height='1' fill='%232a4e8c'/><rect x='5' y='4' width='2' height='1' fill='%23fff'/><rect x='5' y='4' width='2' height='1' fill='%232a4e8c'/></svg>" onerror="skinFallback(this)" alt="" class="w-12 h-12 rounded pixelated object-cover" />
+      </div>
+      <span id="skin-status-label" class="text-[11px] text-white/35 mt-2 font-mono">Skin preview</span>
+    </div>
+
+    <form onsubmit="handleCrackedSubmit(event)" class="flex flex-col gap-3">
+      <div>
+        <label for="cracked-input" class="block text-[11px] text-white/45 mb-1.5">Username</label>
+        <input type="text" id="cracked-input" placeholder="SenpaiSpider" maxlength="16" oninput="handleAvatarPreview(this.value)" class="w-full h-9 bg-black/40 border border-white/15 focus:border-white/30 rounded-md px-3 text-[12px] text-white placeholder-white/25 focus:outline-none transition-colors" required autocomplete="off" />
+        <p id="cracked-error" class="text-[#e0685d] text-[11px] mt-1.5 hidden">Usernames are 3-16 letters, numbers or underscores.</p>
+      </div>
+
+      <div class="flex gap-2 pt-1">
+        <button type="button" onclick="closeCrackedModal()" class="flex-1 h-9 rounded-md bg-white/[0.06] hover:bg-white/10 text-[12px] font-medium text-white/70 cursor-pointer">Cancel</button>
+        <button type="submit" class="flex-1 h-9 rounded-md bg-white hover:bg-white/90 text-[12px] font-semibold text-[#0b0b0e] cursor-pointer">Sign in</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,179 @@
+<!-- PLAY — the whole window is the artwork; the only UI is the wordmark,
+     the launch cluster and the news sheet, all anchored to the bottom. -->
+<div id="play-view" class="hidden w-full h-full flex-col items-center justify-end relative z-10 px-6 pb-4 overflow-hidden">
+
+  <!-- Wordmark -->
+  <div class="flex flex-col items-center mb-5 select-none">
+    <div class="flex items-center gap-2.5 hero-wordmark">
+      <svg class="w-7 h-7 text-[#e04f4f] mb-0.5" viewBox="0 0 64 64" fill="currentColor">
+        <polygon points="38,4 12,36 30,36 24,60 52,24 34,24" />
+      </svg>
+      <h1 class="text-[40px] leading-none font-bold tracking-[-0.02em] text-white">Flash</h1>
+      <span class="text-[40px] leading-none font-light tracking-[-0.01em] text-white/55">Client</span>
+    </div>
+    <p id="play-status-line" class="mt-3 text-[12px] font-medium text-white/55 hero-shadow">Ready to play</p>
+  </div>
+
+  <!-- Edition switch: the Java profile above, or Horizon's Rust build, which
+       keeps its own launcher, account and worlds. -->
+  <div id="edition-switch" class="mb-2.5 flex items-center gap-0.5 p-0.5 rounded-lg bg-black/45 border border-white/10 backdrop-blur-md select-none">
+    <button type="button" id="edition-java" onclick="setPlayEdition('java')" class="edition-pill is-active">Java</button>
+    <button type="button" id="edition-rust" onclick="setPlayEdition('rust')" class="edition-pill" title="Minecraft Rust Edition, run by Horizon">
+      <span id="edition-rust-dot" class="w-1.5 h-1.5 rounded-full bg-white/25 transition-colors"></span>
+      Rust
+    </button>
+  </div>
+
+  <!-- Launch cluster -->
+  <div class="flex items-stretch justify-center gap-2.5">
+    <!-- Version / environment -->
+    <div class="relative flex items-center">
+      <button type="button" onclick="toggleVersionFlyout()" id="version-trigger-btn"
+              class="h-[52px] w-[168px] px-3.5 rounded-lg bg-black/45 hover:bg-black/60 border border-white/10 backdrop-blur-md flex items-center justify-between text-left transition-colors cursor-pointer group">
+        <span class="flex flex-col leading-none">
+          <span id="active-version-label" class="text-[13px] font-medium text-white font-mono truncate">1.8.9 PvP</span>
+          <span id="active-version-sub" class="text-[11px] text-white/40 mt-1.5">1.8.9 · Forge</span>
+        </span>
+        <svg class="w-3 h-3 text-white/40 group-hover:text-white/80 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+
+      <div id="version-flyout" class="hidden absolute bottom-[62px] left-0 w-[268px] bg-[#15161b] border border-white/10 rounded-xl p-1 shadow-[0_16px_40px_rgba(0,0,0,0.6)] z-50">
+        <p class="px-2.5 pt-2 pb-1.5 text-[11px] font-medium text-white/35">Profile</p>
+        <div id="env-options"></div>
+        <div class="h-px bg-white/[0.07] my-1.5"></div>
+        <p class="px-2.5 pb-1.5 text-[11px] font-medium text-white/35">Memory</p>
+        <div id="ram-options" class="grid grid-cols-4 gap-1.5 px-1.5 pb-1.5"></div>
+      </div>
+    </div>
+
+    <!-- The one button that matters -->
+    <button type="button" id="launch-game-btn" onclick="handleLaunchGame()" class="play-btn h-[52px] w-[260px] rounded-lg flex items-center justify-center gap-2 cursor-pointer">
+      <svg id="launch-btn-icon" class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+      <span id="launch-btn-text">Play</span>
+    </button>
+
+    <!-- Quick play -->
+    <div class="relative flex items-center">
+      <button type="button" id="quick-play-btn" onclick="quickPlay()"
+              class="h-[52px] w-[168px] pl-2 pr-2 rounded-lg bg-black/45 hover:bg-black/60 border border-white/10 backdrop-blur-md flex items-center gap-2 transition-colors cursor-pointer group">
+        <span class="w-6 h-6 rounded bg-white/[0.08] border border-white/10 text-white/70 font-mono text-[11px] flex items-center justify-center">R</span>
+        <span class="flex-1 text-left text-[12px] font-semibold text-white/90">Quick play</span>
+        <span onclick="toggleQuickFlyout(event)" title="Choose server" class="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 text-white/40 group-hover:text-white/80 transition-colors cursor-pointer">
+          <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </span>
+      </button>
+
+      <div id="quick-flyout" class="hidden absolute bottom-[62px] right-0 w-[268px] bg-[#15161b] border border-white/10 rounded-xl p-1 shadow-[0_16px_40px_rgba(0,0,0,0.6)] z-50">
+        <p class="px-2.5 pt-2 pb-1.5 text-[11px] font-medium text-white/35">Join server</p>
+        <div id="quick-server-options"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- News -->
+  <button type="button" id="news-toggle" onclick="toggleNewsSheet()"
+          class="mt-5 flex items-center gap-1.5 text-[12px] font-semibold text-white/60 hover:text-white transition-colors cursor-pointer">
+    <span>News</span>
+    <svg id="news-toggle-chev" class="w-3 h-3 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+  </button>
+
+  <div id="news-sheet" class="hidden absolute bottom-[112px] left-1/2 -translate-x-1/2 w-[880px] max-h-[300px] overflow-y-auto custom-scrollbar bg-[#0e0f13] border border-white/10 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.6)] z-30">
+    <div class="flex items-center justify-between px-4 py-3 border-b border-white/[0.07] sticky top-0 bg-[#0e0f13] rounded-t-xl">
+      <div class="flex items-baseline gap-2.5">
+        <span class="text-[13px] font-semibold text-white">News</span>
+        <span class="text-[12px] text-white/35" id="news-count-label"></span>
+      </div>
+      <button type="button" onclick="toggleNewsSheet()" aria-label="Close news" class="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 text-white/40 hover:text-white/80 cursor-pointer">
+        <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div id="news-feed" class="p-2.5 grid grid-cols-2 gap-2.5"></div>
+  </div>
+
+  <!-- Download cover: shown while the launcher fetches Java, the loader,
+       libraries and assets. The minigame is optional (Settings → Minigame). -->
+  <div id="download-overlay" class="hidden absolute inset-0 z-40 items-center justify-center bg-[#09090b]/75 backdrop-blur-[3px] px-6">
+    <div class="w-full max-w-[760px] bg-[#0e0f13] border border-white/10 rounded-2xl shadow-[0_24px_70px_rgba(0,0,0,0.65)] p-5 grid grid-cols-[1fr_264px] gap-5">
+
+      <div class="flex flex-col justify-between min-w-0 py-1">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#4cbb5e]"></span>
+            <span id="download-phase" class="text-[12px] font-semibold text-white">Preparing</span>
+            <span id="download-percent" class="ml-auto text-[12px] font-mono text-white/45">0%</span>
+          </div>
+          <p id="download-message" class="text-[11px] text-white/40 mt-2 truncate">Checking files…</p>
+        </div>
+
+        <div>
+          <div class="h-1.5 rounded-full bg-white/[0.08] overflow-hidden">
+            <div id="download-bar" class="h-full rounded-full bg-[#4cbb5e] transition-[width] duration-300" style="width: 0%"></div>
+          </div>
+          <div class="flex items-center justify-between mt-2">
+            <span id="download-bytes" class="text-[11px] font-mono text-white/30"></span>
+            <span class="text-[11px] text-white/25">Minecraft opens by itself</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="minigame-wrap" class="rounded-xl bg-black/40 border border-white/[0.07] p-2.5 flex flex-col gap-2">
+        <div class="flex items-center justify-between px-0.5">
+          <span class="text-[11px] font-medium text-white/45">Dodge the creepers</span>
+          <span class="text-[11px] font-mono text-white/55"><span id="minigame-score">0</span> pts</span>
+        </div>
+        <canvas id="minigame-canvas" width="240" height="150" class="w-full rounded-md bg-[#12141a] pixelated"></canvas>
+        <p class="text-[10px] text-white/25 px-0.5">▲ ▼ ◀ ▶ or WASD to move</p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- Horizon setup helper: Rust Edition cannot run without Horizon. -->
+<div id="horizon-setup-modal" class="hidden fixed inset-0 z-[80] items-center justify-center bg-black/70 backdrop-blur-md">
+  <div class="surface-modal w-[420px] max-h-[520px] flex flex-col overflow-hidden">
+    <div class="px-5 pt-4 pb-3 border-b border-white/[0.07] flex items-start justify-between gap-3">
+      <div class="min-w-0">
+        <h3 class="text-[13px] font-semibold text-white">Horizon is required</h3>
+        <p class="text-[11px] text-white/35 mt-1">Rust Edition runs through Horizon. Horizon ships no game files of its own.</p>
+      </div>
+      <button type="button" onclick="closeHorizonSetup()" aria-label="Close setup"
+              class="w-6 h-6 shrink-0 flex items-center justify-center rounded text-white/35 hover:text-white hover:bg-white/10 transition-colors cursor-pointer">
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="flex-1 overflow-y-auto custom-scrollbar px-5 py-4">
+      <div id="horizon-setup-content">
+        <p class="text-[11px] text-white/45 mb-1.5">You need:</p>
+        <ul id="horizon-setup-requirements" class="text-[11px] text-white/60 list-disc pl-4 mb-4 space-y-0.5"></ul>
+        <p class="text-[11px] text-white/45 mb-1.5">Setup, once:</p>
+        <ol id="horizon-setup-steps" class="text-[11px] text-white/60 list-decimal pl-4 mb-5 space-y-1"></ol>
+        <div class="flex flex-col gap-2">
+          <button type="button" onclick="horizonSetupDownload()"
+                  class="h-8 px-3 rounded-md bg-white hover:bg-white/90 text-[#0b0b0e] text-[11px] font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
+            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Download from playhorizon.dev
+          </button>
+          <button type="button" onclick="horizonSetupInstallFromFile()"
+                  class="h-8 px-3 rounded-md bg-white/[0.06] hover:bg-white/[0.1] border border-white/10 text-[11px] font-medium text-white/80 transition-colors cursor-pointer">
+            Install from downloaded file
+          </button>
+          <button type="button" onclick="horizonSetupLocate()"
+                  class="h-8 px-3 rounded-md bg-white/[0.04] hover:bg-white/[0.08] text-[11px] font-medium text-white/50 hover:text-white/70 transition-colors cursor-pointer">
+            Locate installed horizon-launcher.exe
+          </button>
+        </div>
+      </div>
+      <div id="horizon-setup-progress" class="hidden flex flex-col items-center justify-center gap-3 py-6 text-center">
+        <div class="w-8 h-8 border-2 border-white/10 border-t-[#4cbb5e] rounded-full animate-spin"></div>
+        <p id="horizon-setup-status" class="text-[12px] text-white/70">Waiting for installer…</p>
+        <p class="text-[10px] text-white/30 max-w-[280px]">Run the installer, then Flash Client will detect Horizon automatically.</p>
+        <button type="button" onclick="closeHorizonSetup()"
+                class="mt-2 h-7 px-3 rounded-md bg-white/[0.06] hover:bg-white/[0.1] text-[11px] font-medium text-white/60 hover:text-white transition-colors cursor-pointer">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

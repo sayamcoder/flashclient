@@ -1,0 +1,186 @@
+<div id="settings-view" class="hidden w-full h-full flex-col p-7 overflow-hidden">
+  <div class="mb-5">
+    <h2 class="page-title">Settings</h2>
+    <p id="settings-subtitle" class="text-[12px] text-white/40 mt-1">Everything here is saved on this PC</p>
+  </div>
+
+  <div class="flex-1 overflow-y-auto custom-scrollbar pr-2">
+    <div class="max-w-[680px] flex flex-col gap-5 pb-6">
+
+      <section class="settings-card">
+        <h3 class="settings-group-title">Launcher</h3>
+
+        <div class="settings-row">
+          <div class="min-w-0">
+            <p class="settings-label">Discord Rich Presence</p>
+            <p class="settings-hint">Shows the profile you have open in Discord.</p>
+          </div>
+          <label class="shrink-0">
+            <input type="checkbox" class="peer sr-only" id="setting-discordRpc" onchange="settingsToggle('discordRpc', this.checked)">
+            <span class="toggle"></span>
+          </label>
+        </div>
+
+        <div class="settings-row">
+          <div class="min-w-0">
+            <p class="settings-label">Minigame while downloading</p>
+            <p class="settings-hint">Only appears while the launcher is fetching game files.</p>
+          </div>
+          <label class="shrink-0">
+            <input type="checkbox" class="peer sr-only" id="setting-minigame" onchange="settingsToggle('minigame', this.checked)">
+            <span class="toggle"></span>
+          </label>
+        </div>
+
+        <div class="settings-row">
+          <div class="min-w-0">
+            <p class="settings-label">News button</p>
+            <p class="settings-hint">The patch-notes icon next to the window controls.</p>
+          </div>
+          <label class="shrink-0">
+            <input type="checkbox" class="peer sr-only" id="setting-newsButton" onchange="settingsToggle('newsButton', this.checked)">
+            <span class="toggle"></span>
+          </label>
+        </div>
+
+        <div class="settings-row">
+          <div class="min-w-0">
+            <p class="settings-label">Performance mods on new profiles</p>
+            <p class="settings-hint">Adds Sodium, Lithium and Ferrite Core and friends when the loader has them. The list lives in performance-mods.json in the data folder.</p>
+          </div>
+          <label class="shrink-0">
+            <input type="checkbox" class="peer sr-only" id="setting-performanceMods" onchange="settingsToggle('performanceMods', this.checked)">
+            <span class="toggle"></span>
+          </label>
+        </div>
+
+        <div class="settings-row">
+          <div class="min-w-0">
+            <p class="settings-label">Minimize while playing</p>
+            <p class="settings-hint">Sends the launcher to the taskbar once Minecraft opens.</p>
+          </div>
+          <label class="shrink-0">
+            <input type="checkbox" class="peer sr-only" id="setting-minimizeOnLaunch" onchange="settingsToggle('minimizeOnLaunch', this.checked)">
+            <span class="toggle"></span>
+          </label>
+        </div>
+      </section>
+
+      <section class="settings-card">
+        <h3 class="settings-group-title">Background</h3>
+
+        <div class="settings-row">
+          <div class="min-w-0">
+            <p class="settings-label">Keep running after the window closes</p>
+            <p class="settings-hint">Closing the launcher while Minecraft is open hides it to the tray instead of quitting, so the game keeps playing. Reopen it from the tray icon.</p>
+          </div>
+          <label class="shrink-0">
+            <input type="checkbox" class="peer sr-only" id="setting-runInBackground" onchange="settingsToggle('runInBackground', this.checked)">
+            <span class="toggle"></span>
+          </label>
+        </div>
+
+        <div class="settings-row">
+          <div class="min-w-0">
+            <p class="settings-label">Tell me when it happens</p>
+            <p class="settings-hint">One desktop notification the first time a game keeps running in the background.</p>
+          </div>
+          <label class="shrink-0">
+            <input type="checkbox" class="peer sr-only" id="setting-backgroundNotice" onchange="settingsToggle('backgroundNotice', this.checked)">
+            <span class="toggle"></span>
+          </label>
+        </div>
+
+        <div class="px-3.5 py-3">
+          <p class="text-[11px] leading-relaxed text-white/30">
+            Several profiles can run at once. Open <button type="button" onclick="switchTab('instances')" class="text-white/55 hover:text-white underline underline-offset-2 cursor-pointer">Instances</button> to see what is running and stop it individually.
+          </p>
+        </div>
+      </section>
+
+      <section class="settings-card">
+        <h3 class="settings-group-title">Java</h3>
+
+        <div class="settings-row">
+          <div class="min-w-0">
+            <p class="settings-label">Automatic Java install</p>
+            <p class="settings-hint">A runtime is downloaded only when the version you launch needs one that is not on this PC.</p>
+          </div>
+          <label class="shrink-0">
+            <input type="checkbox" class="peer sr-only" id="setting-autoInstallJava" onchange="settingsToggle('autoInstallJava', this.checked)">
+            <span class="toggle"></span>
+          </label>
+        </div>
+
+        <div class="settings-row">
+          <div class="min-w-0">
+            <p class="settings-label">Default memory</p>
+            <p class="settings-hint">Used for new profiles. Each profile still has its own setting.</p>
+          </div>
+          <div id="settings-ram-options" class="grid grid-cols-4 gap-1 w-[164px] shrink-0"></div>
+        </div>
+
+        <div class="px-3.5 py-3">
+          <div class="flex items-center justify-between mb-2">
+            <p class="settings-label">Runtimes found</p>
+            <button type="button" onclick="refreshJavaInfo()" class="h-6 px-2 rounded bg-white/[0.06] hover:bg-white/[0.1] text-[11px] font-medium text-white/60 hover:text-white transition-colors cursor-pointer">Rescan</button>
+          </div>
+          <div id="settings-java-list" class="flex flex-col gap-1.5">
+            <p class="text-[11px] text-white/30">Scanning this PC…</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="settings-card">
+        <h3 class="settings-group-title">Rust Edition</h3>
+
+        <div class="settings-row">
+          <div class="min-w-0">
+            <p class="settings-label">Horizon launcher</p>
+            <p id="horizon-status-line" class="settings-hint">Looking for horizon-launcher.exe…</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <button type="button" onclick="detectHorizonLauncher()"
+                    class="h-7 px-2.5 rounded-md bg-white/[0.06] hover:bg-white/[0.1] text-[11px] font-medium text-white/60 hover:text-white transition-colors cursor-pointer">Detect</button>
+            <button type="button" onclick="pickHorizonLauncher()"
+                    class="h-7 px-2.5 rounded-md bg-white/[0.06] hover:bg-white/[0.1] text-[11px] font-medium text-white/70 transition-colors cursor-pointer">Browse</button>
+            <button type="button" onclick="openHorizonDownload()"
+                    class="h-7 px-2.5 rounded-md bg-white/[0.06] hover:bg-white/[0.1] text-[11px] font-medium text-white/70 transition-colors cursor-pointer">Get</button>
+          </div>
+        </div>
+        <p class="settings-hint text-white/35">
+          Horizon ships no game files. It builds its resources from your own Minecraft 26.3 install, so you need Java Edition played once and a Microsoft account that owns it.
+        </p>
+
+        <div class="px-3.5 py-3">
+          <p class="text-[11px] leading-relaxed text-white/30">
+            Horizon is a separate, unofficial Rust rewrite of Minecraft Java Edition. Flash Client only opens it —
+            builds, worlds and the Microsoft sign-in stay inside Horizon.
+          </p>
+        </div>
+      </section>
+
+      <section class="settings-card">
+        <h3 class="settings-group-title">Storage</h3>
+
+        <div class="settings-row">
+          <div class="min-w-0">
+            <p class="settings-label">Game files</p>
+            <p class="settings-hint">Versions, libraries, assets and downloaded Java runtimes.</p>
+          </div>
+          <button type="button" onclick="openDataFolder('data')" class="h-7 px-2.5 rounded-md bg-white/[0.06] hover:bg-white/[0.1] text-[11px] font-medium text-white/70 transition-colors cursor-pointer shrink-0">Open folder</button>
+        </div>
+
+        <div class="settings-row">
+          <div class="min-w-0">
+            <p class="settings-label">Profiles and settings</p>
+            <p class="settings-hint">profiles.json, settings.json and every instance folder.</p>
+          </div>
+          <button type="button" onclick="openDataFolder('userData')" class="h-7 px-2.5 rounded-md bg-white/[0.06] hover:bg-white/[0.1] text-[11px] font-medium text-white/70 transition-colors cursor-pointer shrink-0">Open folder</button>
+        </div>
+      </section>
+
+      <p class="text-[11px] text-white/25 px-1">Flash Client v1.0.4 · Minecraft Java Edition</p>
+    </div>
+  </div>
+</div>

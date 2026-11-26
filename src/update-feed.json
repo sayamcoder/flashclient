@@ -1,0 +1,5 @@
+{
+  "_comment": "Owner config, not a user setting. Updates come straight from GitHub Releases, so nothing is stored on the content server. Use github: owner/repo and tag the release with the build version (v1.0.1). A release needs the setup .exe with a sha256 digest; older uploads can ship an update.json next to it instead. A plain manifest URL also works with url: https://…/update.json.",
+  "github": "sayamcoder/flashhhhhhhhhhh",
+  "tag": "flashhhh"
+}

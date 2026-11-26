@@ -1,0 +1,33 @@
+<!-- Shaderpacks are per profile: the list and the active pick come from the
+     profile's own shaderpacks folder and optionsshaders.txt. -->
+<div id="shaders-view" class="hidden w-full h-full flex-col p-7 overflow-hidden">
+  <div class="flex items-start justify-between gap-4 mb-5">
+    <div>
+      <h2 class="page-title">Shaders</h2>
+      <p id="shaders-subtitle" class="text-[12px] text-white/40 mt-1">Loading…</p>
+    </div>
+  </div>
+
+  <div class="flex items-center gap-2.5 mb-5">
+    <div class="flex gap-0.5 bg-white/[0.05] p-0.5 rounded-md">
+      <button type="button" id="shaders-tab-installed" onclick="setShadersMode('installed')"
+              class="px-2.5 py-1 text-[11px] font-medium rounded text-white bg-white/10 cursor-pointer">Installed</button>
+      <button type="button" id="shaders-tab-browse" onclick="setShadersMode('browse')"
+              class="px-2.5 py-1 text-[11px] font-medium rounded text-white/40 hover:text-white cursor-pointer">Browse</button>
+    </div>
+
+    <button type="button" onclick="openShadersFolder()" title="Open shaders folder" aria-label="Open shaders folder"
+            class="w-8 h-8 flex items-center justify-center rounded-md bg-white/[0.05] hover:bg-white/10 text-white/55 hover:text-white transition-colors cursor-pointer">
+      <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"></path></svg>
+    </button>
+  </div>
+
+  <div id="shaders-search-row" class="hidden mb-4">
+    <input type="text" id="shader-search-input" oninput="filterShaders(this.value)" placeholder="Search shaderpacks on Modrinth"
+           class="w-full h-9 bg-[#121317] border border-white/10 focus:border-white/25 rounded-md px-3 text-[12px] text-white placeholder-white/30 focus:outline-none transition-colors" />
+  </div>
+
+  <div class="flex-1 overflow-y-auto pr-2 custom-scrollbar">
+    <div id="shaders-list" class="flex flex-col gap-2 pb-4"></div>
+  </div>
+</div>

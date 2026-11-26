@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full select-none bg-[#09090b]">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FlashClient</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body class="h-full w-full bg-[#09090b] text-white overflow-hidden flex flex-col antialiased relative font-sans">
+  <!-- One full-bleed world layer behind everything. The bar and the launch
+       cluster float on top of it, so the art reads as the window itself
+       rather than as a picture inside a card. Only the Play tab shows it. -->
+  <div id="world-backdrop" class="fixed inset-0 z-0 opacity-0 pointer-events-none transition-opacity duration-500 bg-cover bg-center"
+       style="background-image: url('images/world-summer-2560x1440.png')">
+    <div class="absolute inset-0 bg-gradient-to-b from-[#09090b]/60 via-[#09090b]/10 to-[#09090b]/90"></div>
+    <div class="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#09090b]/80 to-transparent"></div>
+    <!-- Soft halo behind the wordmark: the art is busiest exactly where the
+         name sits, so the scrim is centred there instead of darkening all. -->
+    <div class="absolute inset-0" style="background: radial-gradient(ellipse 46% 26% at 50% 61%, rgba(9,9,11,0.78), rgba(9,9,11,0) 72%)"></div>
+  </div>
+
+  <!-- Ambient wash for the working tabs. Play owns the artwork; everything
+       else sits on this low gradient so the flat lists still feel like part
+       of the same window. -->
+  <div id="app-ambient" class="fixed inset-0 z-0 opacity-0 pointer-events-none transition-opacity duration-500" aria-hidden="true">
+    <div class="absolute inset-0" style="background:
+      radial-gradient(760px 430px at 16% -12%, rgba(224, 79, 79, 0.15), transparent 68%),
+      radial-gradient(700px 430px at 102% -10%, rgba(76, 187, 94, 0.11), transparent 70%),
+      radial-gradient(900px 520px at 50% 118%, rgba(247, 215, 116, 0.055), transparent 72%);"></div>
+    <div class="absolute inset-0 opacity-[0.13]" style="background-image:
+      linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 46px 46px;
+      mask-image: radial-gradient(ellipse 72% 62% at 50% 18%, #000 0%, transparent 78%);
+      -webkit-mask-image: radial-gradient(ellipse 72% 62% at 50% 18%, #000 0%, transparent 78%);"></div>
+  </div>
+
+  <%- include('partials/header') %>
+  <main class="flex-1 w-full overflow-hidden relative">
+    <%- include('partials/auth') %>
+    <%- include('partials/play') %>
+    <%- include('partials/instances') %>
+    <%- include('partials/profiles') %>
+    <%- include('partials/mods') %>
+    <%- include('partials/shaders') %>
+    <%- include('partials/resourcepacks') %>
+    <%- include('partials/skins') %>
+    <%- include('partials/cosmetics') %>
+    <%- include('partials/friends') %>
+    <%- include('partials/servers') %>
+    <%- include('partials/update') %>
+    <%- include('partials/settings') %>
+  </main>
+  <%- include('partials/toast') %>
+  <%- include('partials/rewards') %>
+
+  <script src="js/toast.js"></script>
+  <script src="js/news.js"></script>
+  <script src="js/skinhead.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/profiles.js"></script>
+  <script src="js/download-game.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/play.js"></script>
+  <script src="js/instances.js"></script>
+  <script src="js/mods.js"></script>
+  <script src="js/shaders.js"></script>
+  <script src="js/resourcepacks.js"></script>
+  <script src="js/skins.js"></script>
+  <script src="js/vendor/three.min.js"></script>
+  <script src="js/cosmetic3d.js"></script>
+  <script src="js/cosmetics.js"></script>
+  <script src="js/friends.js"></script>
+  <script src="js/rewards.js"></script>
+  <script src="js/servers.js"></script>
+  <script src="js/cloud-content.js"></script>
+  <script src="js/update.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+{
+  "_comment": "Owner config, not a user setting. Paste your deployed content server URL below, then rebuild the launcher. Leave empty to use the copy bundled in news.js and servers.js.",
+  "url": "https://api-flashclient.alwaysdata.net"
+}

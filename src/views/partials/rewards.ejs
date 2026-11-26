@@ -1,0 +1,60 @@
+<!-- Daily rewards — one claim per UTC day, streak resets after a missed day.
+     The modal is opened from the coin chip in the top bar or the account menu. -->
+<div id="rewards-modal" class="reward-modal hidden fixed inset-0 z-[60] items-center justify-center p-4">
+  <div class="absolute inset-0 bg-black/65 backdrop-blur-sm" onclick="closeRewards()"></div>
+
+  <div class="surface-modal relative w-[430px] max-w-full rounded-2xl overflow-hidden">
+    <!-- Header -->
+    <div class="flex items-center gap-3 px-5 pt-5 pb-4 border-b border-white/[0.06]">
+      <span class="w-9 h-9 rounded-xl flex items-center justify-center bg-[#f7d774]/15 text-[#f7d774] shrink-0">
+        <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+          <rect x="3" y="8" width="18" height="13" rx="2"></rect>
+          <path d="M3 12h18"></path>
+          <path d="M12 8v13"></path>
+          <path d="M7.5 8a2.5 2.5 0 010-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 010 5"></path>
+        </svg>
+      </span>
+      <div class="min-w-0 flex-1">
+        <h2 class="text-[15px] font-semibold text-white leading-tight">Daily Rewards</h2>
+        <p id="reward-subtitle" class="text-[11px] text-white/40 mt-0.5">Sign in to collect store coins.</p>
+      </div>
+      <button type="button" onclick="closeRewards()" aria-label="Close"
+              class="w-7 h-7 flex items-center justify-center rounded-lg text-white/35 hover:text-white hover:bg-white/10 transition-colors cursor-pointer">
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+
+    <div class="px-5 py-4">
+      <!-- Balance + streak -->
+      <div class="flex items-stretch gap-2 mb-4">
+        <div class="flex-1 rounded-xl border border-white/[0.07] bg-white/[0.025] px-3.5 py-3">
+          <p class="text-[10px] font-medium uppercase tracking-[0.06em] text-white/35">Balance</p>
+          <p class="mt-1.5 flex items-center gap-1.5 text-[19px] font-bold text-white leading-none">
+            <span class="reward-coin">F</span>
+            <span id="reward-balance">—</span>
+          </p>
+        </div>
+        <div class="flex-1 rounded-xl border border-white/[0.07] bg-white/[0.025] px-3.5 py-3">
+          <p class="text-[10px] font-medium uppercase tracking-[0.06em] text-white/35">Streak</p>
+          <p class="mt-1.5 flex items-baseline gap-1 text-[19px] font-bold text-white leading-none">
+            <span id="reward-streak">0</span>
+            <span class="text-[11px] font-medium text-white/35">days</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Seven-day track -->
+      <p class="text-[11px] font-medium text-white/40 mb-2">Claim every day — the streak pays more</p>
+      <div id="reward-days" class="grid grid-cols-7 gap-1.5 mb-4">
+        <p class="col-span-7 text-[11px] text-white/25 py-2">Loading rewards…</p>
+      </div>
+
+      <!-- Claim -->
+      <button type="button" id="reward-claim-btn" onclick="claimDailyReward()" disabled
+              class="w-full h-10 rounded-lg font-semibold text-[12px] transition-colors cursor-pointer bg-white/[0.06] text-white/30 cursor-not-allowed">
+        Check back in a moment
+      </button>
+      <p id="reward-status" class="mt-2.5 text-[11px] text-white/30 text-center leading-relaxed">Rewards are served by the Flash store backend.</p>
+    </div>
+  </div>
+</div>
